@@ -116,3 +116,53 @@ router.get('/:id', (req, res) => {
   const listing = getListingById(req.params.id);
   res.json(listing);
 });
+
+
+router.post('/', (req, res, next) => {
+
+  if (!req.body.title || !req.body.price || !req.body.categoryId || !req.body.userId) {
+
+      const err = new Error('FINISH ALL LISTING FORM PROPERLY');
+      err.status = 400;
+
+      return next(err);
+  }
+  
+  const newListing = createListing(req.body);
+  res.status(201).json(newListing);
+});
+
+router.put('/:id', (req, res, next) => {
+
+  const listing = updateListing(req.params.id, req.body);
+  
+  if (!listing) {
+
+      const err = new Error('LISTING NOT FOUND ');
+      err.status = 404;
+      return next(err);
+  }
+  
+  res.json(listing);
+});
+
+router.delete('/:id', (req, res, next) => {
+  const listing = deleteListing(req.params.id);
+  
+  if (!listing) {
+
+    const err = new Error('LISTING NOT FOUND ');
+    err.status = 404;
+    return next(err);
+}
+
+  
+  res.json({ message: 'Listingg deleted', listing });
+});
+
+
+module.exports = router;
+module.exports.getAllListings = getAllListings;
+module.exports.getListingById = getListingById;
+module.exports.getListingsByCategoryId = getListingsByCategoryId;
+module.exports.getListingsByUserId = getListingsByUserId;

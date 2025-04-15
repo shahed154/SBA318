@@ -25,6 +25,7 @@ app.use('/api/users', require('./routes/users'))
 app.use('/api/listings', require('./routes/listings'))
 app.use('/api/categories', require('./routes/categories'));
 
+app.use(errorHandler);
 
 
 app.get('/', (req, res) => {

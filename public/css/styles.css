@@ -1,0 +1,24 @@
+body {
+    font-family: Verdana, sans-serif;
+    background-color: #fdfdfd;
+}
+.container {
+
+    padding: 10px;
+    width:  40%;
+    margin: 0 auto;
+    border-radius: 3px;
+    border: solid;
+    /* align-items: center;
+    align-content: center;
+    justify-content: center;
+    justify-content: center;
+    justify-self: center; */
+
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    justify-content:center; 
+  }
+
+  

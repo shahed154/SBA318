@@ -68,12 +68,16 @@ const createListing = (listing) =>
 
 const updateListing = (id, updates) => 
   {
+
+
+
+
   const index = listings.findIndex(listing => listing.id === parseInt(id));
 
 
   if (updates.price) 
     {
-    updates.price = parseInt(updates.price);
+    updates.price = parseInt(updates.price)
   }
   
   if (updates.userId) 
@@ -86,7 +90,7 @@ const updateListing = (id, updates) =>
     updates.categoryId = parseInt(updates.categoryId)
   }
       
-      listings[index] = { ...listings[index], ...updates };
+      listings[index] = { ...listings[index], ...updates }
 
       return listings[index];
   
@@ -98,7 +102,7 @@ const deleteListing = (id) =>
   {
 
   const index = listings.findIndex(listing => 
-    listing.id === parseInt(id));
+    listing.id === parseInt(id))
 
    {
       const deletedListing = listings[index];
@@ -107,6 +111,7 @@ const deleteListing = (id) =>
 
       return deletedListing
 
+
   }
 
 };
@@ -114,17 +119,36 @@ const deleteListing = (id) =>
 
 router.get('/:id', (req, res) => {
   const listing = getListingById(req.params.id);
+
   res.json(listing);
 });
 
+const getListingsByCategoryId = (categoryId) => {
+  return listings.filter(listing => listing.categoryId === parseInt(categoryId))
+
+  
+};
 
 router.post('/', (req, res, next) => {
 
   if (!req.body.title || !req.body.price || !req.body.categoryId || !req.body.userId) {
 
+      const err = new Error('FINISH ALL LISTING FORM PROPERLY')
+      err.status = 400
+
+      return next(err)
+  }
+  
+  const newListing = createListing(req.body);
+  res.status(201).json(newListing);
+});
+
+router.post('/', (req, res, next) => {
+
+  if (!req.body.title || !req.body.price || !req.body.categoryId || !req.body.userId) {
+    
       const err = new Error('FINISH ALL LISTING FORM PROPERLY');
       err.status = 400;
-
       return next(err);
   }
   
@@ -146,22 +170,37 @@ router.put('/:id', (req, res, next) => {
   res.json(listing);
 });
 
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id', (req, res, next) =>
+   {
+
   const listing = deleteListing(req.params.id);
   
   if (!listing) {
 
-    const err = new Error('LISTING NOT FOUND ');
+    const err = new Error('LISTING NOT FOUND');
     err.status = 404;
     return next(err);
-}
-
+  }
   
-  res.json({ message: 'Listingg deleted', listing });
+  res.json({ message: 'Listing deleted', listing });
 });
 
 
+
+router.get('/new', (req, res) => {
+  res.render('newListing', { 
+      title: 'Create Listing', 
+      description: 'Add new item to sell' 
+  });
+});
+
+
+
+
+
 module.exports = router;
+
+
 module.exports.getAllListings = getAllListings;
 module.exports.getListingById = getListingById;
 module.exports.getListingsByCategoryId = getListingsByCategoryId;

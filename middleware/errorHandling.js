@@ -7,6 +7,7 @@ const errorHandler = (err, req, res, next) =>
     console.error(err.stack);
     
     res.status(err.status || 500).send(`
+        
       <h1>Error: ${err.status || 500}</h1>
       <p>${err.message || 'Internal Server Error'}</p>
       <a href="/">Return Home</a>

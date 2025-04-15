@@ -48,6 +48,19 @@ let categories = [
       const newCategory = createCategory(req.body);
       res.status(201).json(newCategory);
     });
+
+
+    router.get('/', (req, res) => {
+      res.json(getAllCategories());
+  });
+
+  router.get('/:id', (req, res, next) => {
+    
+    const category = getCategoryById(req.params.id);
+
+    res.json(category);
+});
+
     
     module.exports = router;
     module.exports.getAllCategories = getAllCategories;
